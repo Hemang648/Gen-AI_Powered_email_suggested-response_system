@@ -43,6 +43,10 @@ class EmailRequest(BaseModel):
 
     additional_instruction: str = ""
 
+    api_key: str = ""
+    
+    
+
 
 # -----------------------------------
 # Health Check
@@ -81,13 +85,15 @@ def generate(req: EmailRequest):
 
         subject=req.subject,
 
-        additional_instruction=req.additional_instruction
+        additional_instruction=req.additional_instruction,
+
+        api_key=req.api_key
 
     )
 
     return {
 
-        "success": True,
+        "success": reply is not None,
 
         "reply": reply
 

@@ -240,6 +240,8 @@ OUTPUT_PATH = os.path.join("Reply_generator", "generated", "generated_replies.js
 # Reusable Function
 # ==========================================================
 
+import google.generativeai as genai
+
 def generate_reply(
     email,
     tone,
@@ -247,25 +249,43 @@ def generate_reply(
     urgency="",
     intent="",
     subject="",
-    additional_instruction=""
+    additional_instruction="",
+    api_key=None
 ):
+
+    # -----------------------------
+    # Configure Gemini
+    # -----------------------------
+
+    if api_key and api_key.strip():
+
+        genai.configure(api_key=api_key.strip())
+
+    else:
+
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY1_reply"))
+
+    model = genai.GenerativeModel("gemini-2.5-flash")
 
     prompt = f"""
 You are an expert business email assistant.
 
 Write a professional, natural, and helpful email reply.
 
-Context
+Category:
+{category}
 
-Category: {category}
+Subject:
+{subject}
 
-Subject: {subject}
+Intent:
+{intent}
 
-Intent: {intent}
+Urgency:
+{urgency}
 
-Urgency: {urgency}
-
-Tone: {tone}
+Tone:
+{tone}
 
 Additional Instructions:
 {additional_instruction}
@@ -274,15 +294,14 @@ Incoming Email:
 
 {email}
 
-Rules
+Rules:
 
 - Answer every concern.
 - Don't invent facts.
-- Keep the response concise.
-- Maintain the requested tone.
-- If more information is needed, politely ask for it.
-- End with an appropriate professional closing.
-- Return ONLY the email body.
+- Be concise.
+- Be polite.
+- End professionally.
+- Return ONLY the email.
 """
 
     for attempt in range(MAX_RETRIES):
@@ -297,14 +316,11 @@ Rules
 
             wait = (attempt + 1) * 10
 
-            print(f"Retry {attempt + 1}/{MAX_RETRIES}")
-
             print(e)
 
             time.sleep(wait)
 
     return None
-
 
 # ==========================================================
 # Standalone Script

@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+vene/
+.env
+
+# Airflow logs
+logs/
+
+# Data files (generated during pipeline run)
+data/raw/
+data/processed/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code settings (optional)
+.vscode/
+
+# Docker temporary files
+*.log

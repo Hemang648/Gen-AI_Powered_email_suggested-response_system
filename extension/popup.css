@@ -1,0 +1,237 @@
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+body{
+
+    width:430px;
+
+    background:#0f172a;
+
+    font-family:Inter,sans-serif;
+
+    color:white;
+
+}
+
+.container{
+
+    padding:18px;
+
+}
+
+.header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-bottom:18px;
+
+}
+
+.logo{
+
+    width:52px;
+
+    height:52px;
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:24px;
+
+}
+
+h1{
+
+    font-size:22px;
+
+}
+
+.header p{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-top:14px;
+
+    margin-bottom:7px;
+
+    font-size:13px;
+
+    color:#cbd5e1;
+
+}
+
+textarea{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    resize:none;
+
+    border-radius:14px;
+
+    background:#1e293b;
+
+    color:white;
+
+    padding:14px;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+#email{
+
+    height:120px;
+
+}
+
+#instruction{
+
+    height:70px;
+
+}
+
+#reply{
+
+    height:180px;
+
+}
+
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    border:none;
+
+    background:#1e293b;
+
+    color:white;
+
+    font-size:14px;
+
+}
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+}
+
+#generateBtn{
+
+    margin-top:18px;
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    transition:.3s;
+
+}
+
+#generateBtn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(99,102,241,.4);
+
+}
+
+.divider{
+
+    margin:20px 0;
+
+    border-top:1px solid #334155;
+
+}
+
+.replyHeader{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+
+}
+
+.replyHeader h2{
+
+    font-size:18px;
+
+}
+
+#copyBtn{
+
+    background:#1e293b;
+
+    color:white;
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+}
+
+#copyBtn:hover{
+
+    background:#334155;
+
+}
+
+textarea::placeholder{
+
+    color:#64748b;
+
+}

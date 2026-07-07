@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Email Assistant</title>
+
+    <link rel="stylesheet" href="popup.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">✉️</div>
+
+        <div>
+
+            <h1>Email AI</h1>
+
+            <p>Generate professional replies instantly</p>
+
+        </div>
+
+    </div>
+
+    <label>Incoming Email</label>
+
+    <textarea
+        id="email"
+        placeholder="Paste customer email..."
+    ></textarea>
+
+    <label>Tone</label>
+
+    <select id="tone">
+
+        <option>Professional</option>
+
+        <option>Friendly</option>
+
+        <option>Formal</option>
+
+        <option>Empathetic</option>
+
+        <option>Confident</option>
+
+    </select>
+
+    <label>Additional Instructions</label>
+
+    <textarea
+        id="instruction"
+        placeholder="Anything you'd like AI to keep in mind?"
+    ></textarea>
+
+    <button id="generateBtn">
+
+        ✨ Generate Reply
+
+    </button>
+
+    <div class="divider"></div>
+
+    <div class="replyHeader">
+
+        <h2>Generated Reply</h2>
+
+        <button id="copyBtn">
+
+            📋 Copy
+
+        </button>
+
+    </div>
+
+    <textarea
+        id="reply"
+        readonly
+        placeholder="Your AI generated reply appears here..."
+    ></textarea>
+
+</div>
+
+<script src="popup.js"></script>
+
+</body>
+</html>

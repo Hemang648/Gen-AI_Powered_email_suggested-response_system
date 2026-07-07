@@ -271,3 +271,15 @@ background:#334155;
 color:white;
 
 }
+#getKey{
+    display:block;
+    margin-top:8px;
+    text-align:center;
+    text-decoration:none;
+    color:#4f46e5;
+    font-weight:600;
+}
+
+#getKey:hover{
+    text-decoration:underline;
+}

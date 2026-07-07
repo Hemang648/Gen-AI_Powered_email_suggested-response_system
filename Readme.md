@@ -286,7 +286,7 @@ https://aistudio.google.com/apikey
 
 
 
-![Extension Home](IMAGES\HOME_INTERFACE.png)
+![Extension Home](IMAGES/HOME_INTERFACE.png)
 
 ---
 
@@ -294,14 +294,14 @@ https://aistudio.google.com/apikey
 
 
 
-![Generated Reply](IMAGES\AI_reply.png)
+![Generated Reply](IMAGES/AI_reply.png)
 
 ---
 
 ## API Key
 
 
-![API Key](IMAGES\API_KEYS.png)
+![API Key](IMAGES/API_KEYS.png)
 
 ---
 
@@ -309,7 +309,7 @@ https://aistudio.google.com/apikey
 
 > Replace with your screenshot
 
-![Evaluation](IMAGES\FINAL_SCORE_TABLE.png)
+![Evaluation](IMAGES/FINAL_SCORE_TABLE.png)
 
 ---
 

@@ -61,37 +61,36 @@ def generate_reply(
     prompt = f"""
 You are an expert business email assistant.
 
-Write a professional, natural, and helpful email reply.
+Your ONLY job is to write a reply to the email provided below.
 
-Category:
-{category}
+DO NOT generate:
+- Category
+- Subject
+- Intent
+- Tone labels
+- Urgency labels
+- Any explanation
 
-Subject:
-{subject}
+Only output the email reply.
 
-Intent:
-{intent}
+The reply should:
+- Be natural and human-like.
+- Address every point from the incoming email.
+- Maintain a {tone.lower()} tone.
+- Be concise (100–200 words).
+- Do not invent facts.
+- If information is missing, politely ask for clarification.
+- End with an appropriate professional closing.
 
-Urgency:
-{urgency}
+Additional instructions:
+{additional_instruction if additional_instruction else "None"}
 
-Tone:
-{tone}
-
-Additional Instructions:
-{additional_instruction}
-
-Incoming Email:
-
+Incoming email:
+-----------------------
 {email}
+-----------------------
 
-Rules:
-- Answer every concern.
-- Don't invent facts.
-- Keep it concise.
-- Be polite.
-- End professionally.
-- Return ONLY the email.
+Reply:
 """
 
     for attempt in range(MAX_RETRIES):

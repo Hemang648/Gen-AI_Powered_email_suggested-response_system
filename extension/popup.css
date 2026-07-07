@@ -271,12 +271,23 @@ background:#334155;
 color:white;
 
 }
+
+.api-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.api-header label{
+    font-weight:600;
+    color:#fff;
+}
+
 #getKey{
-    display:block;
-    margin-top:8px;
-    text-align:center;
+    font-size:12px;
+    color:#8b5cf6;
     text-decoration:none;
-    color:#4f46e5;
     font-weight:600;
 }
 

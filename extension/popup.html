@@ -59,13 +59,14 @@ type="password"
 placeholder="Paste your Gemini API Key"
 />
 
-<a
-    href="https://aistudio.google.com/apikey"
-    target="_blank"
-    id="getKey"
->
-    🔑 Get a Free Gemini API Key
-</a>
+<div class="api-header">
+    <label>Gemini API Key</label>
+    <a id="getKey" href="https://aistudio.google.com/apikey" target="_blank">
+        Get API Key
+    </a>
+</div>
+
+<input type="password" id="apiKey">
 
 <button id="saveKey">
 💾 Save API Key

@@ -188,63 +188,63 @@ if __name__ == "__main__":
 # Generate Replies
 # -----------------------------
 
-for item in tqdm(dataset):
-
-    if item["id"] in completed_ids:
-        continue
-
-    result = generate_reply(
-
-        email=item["incoming_email"],
-        tone=item["tone"],
-        category=item["category"],
-        urgency=item["urgency"],
-        intent=item["intent"],
-        subject=item["subject"]
-
-    )
-
-    if not result["success"]:
-        print(f"Reply {item['id']} failed: {result['error']}")
-
-        if "quota" in result["error"].lower():
-            print("\nGemini API quota exhausted. Stopping generation.")
-            break
-
-        continue
-
-    reply = result["reply"]
-
-    generated.append({
-
-        "id": item["id"],
-
-        "category": item["category"],
-
-        "subject": item["subject"],
-
-        "incoming_email": item["incoming_email"],
-
-        "ideal_reply": item["ideal_reply"],
-
-        "generated_reply": reply,
-
-        "tone": item["tone"]
-
-    })
-
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(generated, f, indent=4, ensure_ascii=False)
-
-    print(f"Saved Reply {item['id']}")
-
-    time.sleep(SECONDS_PER_REQUEST)
-
-print("\nFinished!")
-
-print(f"Generated Replies: {len(generated)}")
-
-print(f"Saved to: {OUTPUT_PATH}")
+    for item in tqdm(dataset):
+    
+        if item["id"] in completed_ids:
+            continue
+        
+        result = generate_reply(
+        
+            email=item["incoming_email"],
+            tone=item["tone"],
+            category=item["category"],
+            urgency=item["urgency"],
+            intent=item["intent"],
+            subject=item["subject"]
+    
+        )
+    
+        if not result["success"]:
+            print(f"Reply {item['id']} failed: {result['error']}")
+    
+            if "quota" in result["error"].lower():
+                print("\nGemini API quota exhausted. Stopping generation.")
+                break
+            
+            continue
+        
+        reply = result["reply"]
+    
+        generated.append({
+        
+            "id": item["id"],
+    
+            "category": item["category"],
+    
+            "subject": item["subject"],
+    
+            "incoming_email": item["incoming_email"],
+    
+            "ideal_reply": item["ideal_reply"],
+    
+            "generated_reply": reply,
+    
+            "tone": item["tone"]
+    
+        })
+    
+        with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+            json.dump(generated, f, indent=4, ensure_ascii=False)
+    
+        print(f"Saved Reply {item['id']}")
+    
+        time.sleep(SECONDS_PER_REQUEST)
+    
+    print("\nFinished!")
+    
+    print(f"Generated Replies: {len(generated)}")
+    
+    print(f"Saved to: {OUTPUT_PATH}")
     
     
     

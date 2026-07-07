@@ -3,7 +3,7 @@
 // ===============================
 
 // Change this after deployment
-const API_URL = "http://127.0.0.1:8000/generate";
+const API_URL = "https://gen-ai-powered-email-suggested-response.onrender.com/generate";
 // Example:
 // const API_URL = "https://your-app.up.railway.app/generate";
 

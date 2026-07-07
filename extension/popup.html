@@ -2,18 +2,22 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <title>AI Email Assistant</title>
 
     <link rel="stylesheet" href="popup.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
 <div class="container">
 
+    <!-- Header -->
     <div class="header">
 
         <div class="logo">✉️</div>
@@ -28,6 +32,7 @@
 
     </div>
 
+    <!-- Email -->
     <label>Incoming Email</label>
 
     <textarea
@@ -35,43 +40,45 @@
         placeholder="Paste customer email..."
     ></textarea>
 
+    <!-- Tone -->
     <label>Tone</label>
 
     <select id="tone">
 
         <option>Professional</option>
-
         <option>Friendly</option>
-
         <option>Formal</option>
-
         <option>Empathetic</option>
-
         <option>Confident</option>
 
     </select>
 
-    <label>Gemini API Key</label>
+    <!-- API Key -->
+    <div class="api-header">
 
-<input
-id="apiKey"
-type="password"
-placeholder="Paste your Gemini API Key"
-/>
+        <label>Gemini API Key</label>
 
-<div class="api-header">
-    <label>Gemini API Key</label>
-    <a id="getKey" href="https://aistudio.google.com/apikey" target="_blank">
-        Get API Key
-    </a>
-</div>
+        <a
+            id="getKey"
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+        >
+            Get API Key
+        </a>
 
-<input type="password" id="apiKey">
+    </div>
 
-<button id="saveKey">
-💾 Save API Key
-</button>
+    <input
+        id="apiKey"
+        type="password"
+        placeholder="Paste your Gemini API Key"
+    >
 
+    <button id="saveKey">
+        💾 Save API Key
+    </button>
+
+    <!-- Additional Instructions -->
     <label>Additional Instructions</label>
 
     <textarea
@@ -79,22 +86,20 @@ placeholder="Paste your Gemini API Key"
         placeholder="Anything you'd like AI to keep in mind?"
     ></textarea>
 
+    <!-- Generate -->
     <button id="generateBtn">
-
         ✨ Generate Reply
-
     </button>
 
     <div class="divider"></div>
 
+    <!-- Reply -->
     <div class="replyHeader">
 
         <h2>Generated Reply</h2>
 
         <button id="copyBtn">
-
             📋 Copy
-
         </button>
 
     </div>
@@ -110,4 +115,5 @@ placeholder="Paste your Gemini API Key"
 <script src="popup.js"></script>
 
 </body>
+
 </html>

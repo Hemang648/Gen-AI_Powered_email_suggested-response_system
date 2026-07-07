@@ -276,12 +276,12 @@ color:white;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:8px;
+    margin:18px 0 8px;
 }
 
 .api-header label{
+    margin:0;
     font-weight:600;
-    color:#fff;
 }
 
 #getKey{
@@ -289,8 +289,10 @@ color:white;
     color:#8b5cf6;
     text-decoration:none;
     font-weight:600;
+    transition:.2s;
 }
 
 #getKey:hover{
+    color:#a78bfa;
     text-decoration:underline;
 }

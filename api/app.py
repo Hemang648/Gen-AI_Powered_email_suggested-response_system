@@ -1,3 +1,5 @@
+from unittest import result
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -71,30 +73,17 @@ def home():
 @app.post("/generate")
 def generate(req: EmailRequest):
 
-    reply = generate_reply(
+    result = generate_reply(
 
-        email=req.email,
+    email=req.email,
+    tone=req.tone,
+    category=req.category,
+    urgency=req.urgency,
+    intent=req.intent,
+    subject=req.subject,
+    additional_instruction=req.additional_instruction,
+    api_key=req.api_key
 
-        tone=req.tone,
+)
 
-        category=req.category,
-
-        urgency=req.urgency,
-
-        intent=req.intent,
-
-        subject=req.subject,
-
-        additional_instruction=req.additional_instruction,
-
-        api_key=req.api_key
-
-    )
-
-    return {
-
-        "success": reply is not None,
-
-        "reply": reply
-
-    }
+    return result

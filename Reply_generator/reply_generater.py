@@ -42,17 +42,19 @@ def generate_reply(
     api_key=None
 ):
 
-    # -----------------------------
     # Configure Gemini
-    # -----------------------------
-
     if api_key and api_key.strip():
-
         genai.configure(api_key=api_key.strip())
-
     else:
+        default_key = os.getenv("GEMINI_API_KEY1_reply")
 
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY1_reply"))
+        if not default_key:
+            return {
+                "success": False,
+                "error": "No Gemini API key provided."
+            }
+
+        genai.configure(api_key=default_key)
 
     model = genai.GenerativeModel("gemini-2.5-flash")
 
@@ -84,10 +86,9 @@ Incoming Email:
 {email}
 
 Rules:
-
 - Answer every concern.
 - Don't invent facts.
-- Be concise.
+- Keep it concise.
 - Be polite.
 - End professionally.
 - Return ONLY the email.
@@ -99,18 +100,61 @@ Rules:
 
             response = model.generate_content(prompt)
 
-            return response.text.strip()
+            return {
+                "success": True,
+                "reply": response.text.strip()
+            }
 
         except Exception as e:
 
-            wait = (attempt + 1) * 10
+            error = str(e).lower()
 
-            print(e)
+            print(error)
 
-            time.sleep(wait)
+            # Invalid API key
+            if (
+                "api key" in error
+                or "permission_denied" in error
+                or "invalid" in error
+                or "authentication" in error
+            ):
+                return {
+                    "success": False,
+                    "error": "Invalid Gemini API Key."
+                }
 
-    return None
+            # Quota exceeded
+            if (
+                "429" in error
+                or "quota" in error
+                or "resource_exhausted" in error
+                or "rate limit" in error
+            ):
+                return {
+                    "success": False,
+                    "error": "Gemini API quota exhausted."
+                }
 
+            # Retry only for temporary server issues
+            if (
+                "500" in error
+                or "503" in error
+                or "internal" in error
+            ):
+                wait = (attempt + 1) * 5
+                print(f"Retrying in {wait}s...")
+                time.sleep(wait)
+                continue
+
+            return {
+                "success": False,
+                "error": str(e)
+            }
+
+    return {
+        "success": False,
+        "error": "Maximum retries exceeded."
+    }
 # ==========================================================
 # Standalone Script
 # ==========================================================
@@ -142,63 +186,66 @@ if __name__ == "__main__":
     completed_ids = {item["id"] for item in generated}
 
     # -----------------------------
-    # Generate Replies
-    # -----------------------------
+# Generate Replies
+# -----------------------------
 
-    for item in tqdm(dataset):
+for item in tqdm(dataset):
 
-        if item["id"] in completed_ids:
-            continue
+    if item["id"] in completed_ids:
+        continue
 
-        reply = generate_reply(
+    result = generate_reply(
 
-            email=item["incoming_email"],
+        email=item["incoming_email"],
+        tone=item["tone"],
+        category=item["category"],
+        urgency=item["urgency"],
+        intent=item["intent"],
+        subject=item["subject"]
 
-            tone=item["tone"],
+    )
 
-            category=item["category"],
+    if not result["success"]:
+        print(f"Reply {item['id']} failed: {result['error']}")
 
-            urgency=item["urgency"],
+        if "quota" in result["error"].lower():
+            print("\nGemini API quota exhausted. Stopping generation.")
+            break
 
-            intent=item["intent"],
+        continue
 
-            subject=item["subject"]
+    reply = result["reply"]
 
-        )
+    generated.append({
 
-        if reply is None:
-            continue
+        "id": item["id"],
 
-        generated.append({
+        "category": item["category"],
 
-            "id": item["id"],
+        "subject": item["subject"],
 
-            "category": item["category"],
+        "incoming_email": item["incoming_email"],
 
-            "subject": item["subject"],
+        "ideal_reply": item["ideal_reply"],
 
-            "incoming_email": item["incoming_email"],
+        "generated_reply": reply,
 
-            "ideal_reply": item["ideal_reply"],
+        "tone": item["tone"]
 
-            "generated_reply": reply,
+    })
 
-            "tone": item["tone"]
+    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+        json.dump(generated, f, indent=4, ensure_ascii=False)
 
-        })
+    print(f"Saved Reply {item['id']}")
 
-        with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-            json.dump(generated, f, indent=4, ensure_ascii=False)
+    time.sleep(SECONDS_PER_REQUEST)
 
-        print(f"Saved Reply {item['id']}")
+print("\nFinished!")
 
-        time.sleep(SECONDS_PER_REQUEST)
+print(f"Generated Replies: {len(generated)}")
 
-    print("\nFinished!")
-
-    print(f"Generated Replies: {len(generated)}")
-
-    print(f"Saved to: {OUTPUT_PATH}")
+print(f"Saved to: {OUTPUT_PATH}")
     
     
     

@@ -2,3 +2,10 @@ google-generativeai
 python-dotenv
 pandas
 tqdm
+fastapi
+uvicorn
+google-generativeai
+python-dotenv
+tqdm
+pandas
+pydantic

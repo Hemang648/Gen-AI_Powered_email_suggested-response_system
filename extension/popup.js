@@ -150,7 +150,7 @@ generateBtn.addEventListener("click", async () => {
 
         } else {
 
-            replyBox.value = "No reply generated.";
+            replyBox.value = data.error;
 
         }
 

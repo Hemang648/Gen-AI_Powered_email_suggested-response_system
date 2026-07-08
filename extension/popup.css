@@ -410,3 +410,73 @@ button svg{
 flex-shrink:0;
 
 }
+
+/* ==========================
+   Toast Notification
+========================== */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:18px;
+
+    transform:translateX(-50%) translateY(20px);
+
+    background:#1e293b;
+
+    color:#fff;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-size:13px;
+
+    font-weight:500;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.35s ease;
+
+    z-index:9999;
+
+    border:1px solid #334155;
+
+    min-width:220px;
+
+    text-align:center;
+
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:translateX(-50%) translateY(0);
+
+}
+
+.toast.success{
+
+    border-left:4px solid #22c55e;
+
+}
+
+.toast.error{
+
+    border-left:4px solid #ef4444;
+
+}
+
+.toast.info{
+
+    border-left:4px solid #3b82f6;
+
+}

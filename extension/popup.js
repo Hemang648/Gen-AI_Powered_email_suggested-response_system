@@ -23,6 +23,22 @@ const toneInput = document.getElementById("tone");
 const instructionInput = document.getElementById("instruction");
 const replyBox = document.getElementById("reply");
 
+const toast = document.getElementById("toast");
+const toastMessage = document.getElementById("toastMessage");
+
+function showToast(message, type = "success") {
+
+    toastMessage.textContent = message;
+
+    toast.className = `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className = "toast";
+
+    }, 2500);
+
+}
 // ===============================
 // DOCUMENTS and password
 // ===============================
@@ -72,7 +88,7 @@ saveBtn.addEventListener("click", () => {
 
     }, () => {
 
-        alert("✅ API Key Saved");
+        showToast("API Key Saved");
 
     });
 
@@ -114,7 +130,7 @@ generateBtn.addEventListener("click", async () => {
 
     if (!email) {
 
-        alert("Please paste an incoming email.");
+        showToast("Please paste an email","error");
         emailInput.focus();
         return;
 
@@ -203,7 +219,7 @@ copyBtn.addEventListener("click", async () => {
 
     if (!reply) {
 
-        alert("Nothing to copy.");
+        showToast("Nothing to copy","error");
         return;
 
     }
@@ -212,7 +228,7 @@ copyBtn.addEventListener("click", async () => {
 
         await navigator.clipboard.writeText(reply);
 
-        copyBtn.innerHTML = "✅ Copied!";
+        showToast("Reply copied");
 
         setTimeout(() => {
 
@@ -224,7 +240,7 @@ copyBtn.addEventListener("click", async () => {
 
     catch (error) {
 
-        alert("Copy failed.");
+        showToast("Copy failed","error");
 
     }
 

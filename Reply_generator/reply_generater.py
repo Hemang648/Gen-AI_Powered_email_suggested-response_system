@@ -59,38 +59,23 @@ def generate_reply(
     model = genai.GenerativeModel("gemini-2.5-flash")
 
     prompt = f"""
-You are an expert business email assistant.
 
-Your ONLY job is to write a reply to the email provided below.
+Reply to this email.
 
-DO NOT generate:
-- Category
-- Subject
-- Intent
-- Tone labels
-- Urgency labels
-- Any explanation
+Tone: {tone}
+Extra: {additional_instruction or "None"}
 
-Only output the email reply.
+Requirements:
+- Professional
+- Concise
+- Answer everything
+- Don't invent information
+- Ask if information is missing
+- Reply only
 
-The reply should:
-- Be natural and human-like.
-- Address every point from the incoming email.
-- Maintain a {tone.lower()} tone.
-- Be concise (100–200 words).
-- Do not invent facts.
-- If information is missing, politely ask for clarification.
-- End with an appropriate professional closing.
-
-Additional instructions:
-{additional_instruction if additional_instruction else "None"}
-
-Incoming email:
------------------------
+Email:
 {email}
------------------------
 
-Reply:
 """
 
     for attempt in range(MAX_RETRIES):

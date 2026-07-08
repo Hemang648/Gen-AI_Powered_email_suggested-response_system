@@ -99,8 +99,8 @@ Email:
                 generation_config=genai.GenerationConfig(
                 temperature=0.3,
                 top_p=0.9,
-                top_k=40,
-                max_output_tokens=140
+                top_k=40
+        
                                     )
                 )
             # Check if Gemini returned an empty response
@@ -152,7 +152,7 @@ Email:
                 or "503" in error
                 or "internal" in error
             ):
-                wait = 2 ** attempt
+                wait = min(2 ** attempt, 10)
                 print(f"Retrying in {wait}s...")
                 time.sleep(wait)
                 continue
@@ -206,12 +206,11 @@ if __name__ == "__main__":
             continue
         
         result = generate_reply(
-        
             email=item["incoming_email"],
             tone=item["tone"],
+            length=item.get("length", "medium"),
             additional_instruction=item.get("additional_instruction", "")
-    
-        )
+)
     
         if not result["success"]:
             print(f"Reply {item['id']} failed: {result['error']}")

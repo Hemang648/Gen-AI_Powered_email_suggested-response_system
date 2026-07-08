@@ -228,7 +228,7 @@ copyBtn.addEventListener("click", async () => {
 
         setTimeout(() => {
 
-            copyBtn.innerHTML = "📋 Copy";
+            copyBtn.innerHTML = "✓ Copied";
 
         }, 1800);
 

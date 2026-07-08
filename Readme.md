@@ -32,19 +32,33 @@ The project also includes a modern Chrome Extension so users can generate replie
 
 # ✨ Features
 
-- 🤖 AI-powered email reply generation
-- ✨ Multiple reply tones
-- 📌 Additional custom instructions
+- 🤖 AI-powered email reply generation using Google Gemini 2.5 Flash
+- 🎯 Multiple reply tones
+  - Professional
+  - Friendly
+  - Formal
+  - Empathetic
+  - Confident
+- 📏 Reply Length Control
+  - Short
+  - Medium
+  - Long
+- 📝 Additional custom instructions
 - 🔐 Bring Your Own Gemini API Key
-- 💾 API key saved locally in Chrome Storage
-- 📋 One-click copy reply
+- 👁 Show / Hide API Key
+- 💾 Save API Key locally using Chrome Storage
+- 📋 One-click Copy Reply
+- ⏳ Loading indicator while AI generates the reply
+- 🔔 Toast notifications for user actions
 - ⚡ FastAPI backend
-- 🌐 Deployable on Render
-- 🔄 Retry mechanism for temporary API failures
-- ⚠️ Proper handling of:
-  - Invalid API Keys
-  - API Quota Exhaustion
-  - Network Errors
+- 🌐 Public deployment on Render
+- 🔄 Automatic retry mechanism
+- 🛡 Robust error handling
+  - Invalid API Key
+  - Quota Exhausted
+  - Network Failure
+  - Empty Response
+  - Internal Server Errors
 
 ---
 
@@ -164,26 +178,42 @@ The reply generator:
 7. Supports resume if generation stops
 
 ---
+# 🔄 Application Workflow
+
+1. User pastes an email into the Chrome Extension.
+2. Selects a reply tone.
+3. Selects the desired reply length.
+4. (Optional) Adds additional instructions.
+5. Clicks **Generate Reply**.
+6. The extension sends a request to the FastAPI backend.
+7. FastAPI forwards the prompt to Google Gemini 2.5 Flash.
+8. Gemini generates a context-aware response.
+9. The backend returns the generated reply.
+10. The extension displays the reply and allows one-click copying.
+
+---
 
 # 🧠 Prompt Engineering
 
-The model receives:
 
-- Email
-- Tone
-- Subject
-- Intent
-- Category
-- Urgency
+The prompt dynamically adapts based on user selections.
+
+Inputs include:
+
+- Incoming Email
+- Selected Tone
+- Reply Length (Short / Medium / Long)
 - Additional Instructions
 
-The prompt ensures:
+The prompt is designed to:
 
-- Professional language
-- Concise responses
-- No hallucinations
-- Proper closing
-- Context-aware replies
+- Produce natural, human-like responses
+- Match the selected tone
+- Respect the requested reply length
+- Answer every question in the email
+- Avoid hallucinating information
+- Request clarification when necessary
+- Return only the email reply
 
 ---
 
@@ -230,10 +260,11 @@ Example Request
 
 ```json
 {
-    "email":"...",
-    "tone":"Professional",
-    "additional_instruction":"Keep it short.",
-    "api_key":"YOUR_GEMINI_KEY"
+  "email": "...",
+  "tone": "Professional",
+  "length": "medium",
+  "additional_instruction": "Keep it concise.",
+  "api_key": "YOUR_GEMINI_API_KEY"
 }
 ```
 
@@ -250,17 +281,20 @@ Example Response
 
 # 🧩 Chrome Extension
 
-The project includes a Chrome Extension built using Manifest V3.
+The Chrome Extension provides an intuitive interface for generating AI-powered email replies.
 
-Features:
+Features include:
 
-- Paste email
-- Select tone
-- Optional instructions
-- Bring Your Own Gemini API Key
-- Save API Key locally
-- Generate reply
-- Copy reply
+- Paste incoming email
+- Select reply tone
+- Select reply length
+- Add custom instructions
+- Save Gemini API Key locally
+- Show / Hide API Key
+- Generate AI reply
+- Copy generated reply
+- Loading animation while generating
+- Success toast notifications
 
 ---
 
@@ -424,13 +458,26 @@ The Chrome Extension simply communicates with the deployed FastAPI endpoint, all
 
 # 🔒 Error Handling
 
-The application handles:
+The application gracefully handles:
 
-- Invalid API Key
-- API Quota Exhausted
-- Network Failure
-- Server Errors
-- Empty Input
+- Invalid Gemini API Key
+- Gemini API Quota Exhaustion
+- Network Connectivity Issues
+- Backend Server Errors
+- Empty User Input
+- Empty AI Responses
+- Temporary Gemini API Failures (Automatic Retry)
+
+---
+
+# ⚡ Performance Optimizations
+
+- Cached Gemini model instance to reduce initialization overhead.
+- Reuses API configuration when the same API key is provided.
+- Automatic retry with exponential backoff for temporary failures.
+- Optimized prompts to reduce unnecessary token usage.
+- Reply length controlled through prompt engineering.
+- Resume support during dataset generation.
 
 ---
 

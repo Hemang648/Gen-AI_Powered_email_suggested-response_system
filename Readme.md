@@ -307,7 +307,6 @@ https://aistudio.google.com/apikey
 
 ## Evaluation Results
 
-> Replace with your screenshot
 
 ![Evaluation](IMAGES/FINAL_SCORE_TABLE.png)
 

@@ -23,6 +23,16 @@ const toneInput = document.getElementById("tone");
 const instructionInput = document.getElementById("instruction");
 const replyBox = document.getElementById("reply");
 
+// ===============================
+// DOCUMENTS and password
+// ===============================
+
+const lengthInput=document.getElementById("length");
+
+const togglePassword=document.getElementById("togglePassword");
+
+const eyeOpen = document.getElementById("eyeOpen");
+const eyeClosed = document.getElementById("eyeClosed");
 
 // ===============================
 // Load Saved API Key
@@ -122,17 +132,19 @@ generateBtn.addEventListener("click", async () => {
                 "Content-Type": "application/json"
             },
 
-            body: JSON.stringify({
+            body:JSON.stringify({
 
-                email: email,
+                    email,
 
-                tone: tone,
+                    tone,
 
-                additional_instruction: instruction,
+                    length:lengthInput.value,
 
-                api_key: apiKey
+                    additional_instruction:instruction,
 
-            })
+                    api_key:apiKey
+
+                })
 
         });
 
@@ -215,5 +227,20 @@ copyBtn.addEventListener("click", async () => {
         alert("Copy failed.");
 
     }
+
+});
+
+// ===============================
+// SHOW / HIDE BOTTON
+// ===============================
+
+togglePassword.addEventListener("click", () => {
+
+    const hidden = apiKeyInput.type === "password";
+
+    apiKeyInput.type = hidden ? "text" : "password";
+
+    eyeOpen.style.display = hidden ? "none" : "block";
+    eyeClosed.style.display = hidden ? "block" : "none";
 
 });

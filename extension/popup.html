@@ -2,15 +2,12 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <title>AI Email Assistant</title>
 
     <link rel="stylesheet" href="popup.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
@@ -19,21 +16,16 @@
 
     <!-- Header -->
     <div class="header">
-
         <div class="logo">✉️</div>
 
         <div>
-
             <h1>Email AI</h1>
-
             <p>Generate professional replies instantly</p>
-
         </div>
-
     </div>
 
-    <!-- Email -->
-    <label>Incoming Email</label>
+    <!-- Incoming Email -->
+    <label for="email">Incoming Email</label>
 
     <textarea
         id="email"
@@ -41,22 +33,29 @@
     ></textarea>
 
     <!-- Tone -->
-    <label>Tone</label>
+    <label for="tone">Tone</label>
 
     <select id="tone">
-
         <option>Professional</option>
         <option>Friendly</option>
         <option>Formal</option>
         <option>Empathetic</option>
         <option>Confident</option>
+    </select>
 
+    <!-- Reply Length -->
+    <label for="length">Reply Length</label>
+
+    <select id="length">
+        <option value="short">Short</option>
+        <option value="medium" selected>Medium</option>
+        <option value="long">Long</option>
     </select>
 
     <!-- API Key -->
     <div class="api-header">
 
-        <label>Gemini API Key</label>
+        <label for="apiKey">Gemini API Key</label>
 
         <a
             id="getKey"
@@ -68,18 +67,69 @@
 
     </div>
 
-    <input
-        id="apiKey"
-        type="password"
-        placeholder="Paste your Gemini API Key"
-    >
+    <div class="password-container">
+
+        <input
+            id="apiKey"
+            type="password"
+            placeholder="Paste your Gemini API Key"
+            autocomplete="off"
+        >
+
+        <button
+            id="togglePassword"
+            class="icon-btn"
+            type="button"
+            aria-label="Show API Key"
+        >
+
+            <!-- Eye Open -->
+            <svg id="eyeOpen"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="18"
+                 height="18"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                <circle cx="12" cy="12" r="3"/>
+
+            </svg>
+
+            <!-- Eye Closed -->
+            <svg id="eyeClosed"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="18"
+                 height="18"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 style="display:none;">
+
+                <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C7 20 2.73 16.89 1 12a21.86 21.86 0 0 1 5.06-7.94"/>
+                <path d="M1 1l22 22"/>
+                <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c5 0 9.27 3.11 11 8a21.77 21.77 0 0 1-3.16 5.19"/>
+                <path d="M14.12 14.12A3 3 0 0 1 9.88 9.88"/>
+
+            </svg>
+
+        </button>
+
+    </div>
 
     <button id="saveKey">
         💾 Save API Key
     </button>
 
     <!-- Additional Instructions -->
-    <label>Additional Instructions</label>
+    <label for="instruction">Additional Instructions</label>
 
     <textarea
         id="instruction"
@@ -93,7 +143,7 @@
 
     <div class="divider"></div>
 
-    <!-- Reply -->
+    <!-- Generated Reply -->
     <div class="replyHeader">
 
         <h2>Generated Reply</h2>
@@ -115,5 +165,4 @@
 <script src="popup.js"></script>
 
 </body>
-
 </html>

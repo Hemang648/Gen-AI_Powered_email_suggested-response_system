@@ -34,6 +34,8 @@ class EmailRequest(BaseModel):
     email: str
 
     tone: str = "Professional"
+    
+    length: str = "medium"
 
     category: str = ""
 
@@ -44,7 +46,7 @@ class EmailRequest(BaseModel):
     subject: str = ""
 
     additional_instruction: str = ""
-
+    
     api_key: str = ""
     
     
@@ -81,6 +83,7 @@ def generate(req: EmailRequest):
     urgency=req.urgency,
     intent=req.intent,
     subject=req.subject,
+    length=req.length,
     additional_instruction=req.additional_instruction,
     api_key=req.api_key
 

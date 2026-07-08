@@ -36,6 +36,7 @@ OUTPUT_PATH = os.path.join("Reply_generator", "generated", "generated_replies.js
 def generate_reply(
     email,
     tone,
+    length="medium",
     additional_instruction="",
     api_key=None
 ):
@@ -59,6 +60,15 @@ def generate_reply(
     email = email.strip()
     additional_instruction = additional_instruction.strip()
     
+    if length=="short":
+        word_limit="40-60 words"
+
+    elif length=="long":
+        word_limit="150-200 words"
+
+    else:
+        word_limit="80-120 words"
+    
     prompt = f"""
 
 Reply to the email below.
@@ -67,13 +77,13 @@ Tone: {tone}
 Extra instructions: {additional_instruction or "None"}
 
 Requirements:
+
+- Reply only
 - Professional and natural
-- Answer every question
+- Answer all questions
 - Don't invent facts
 - Ask for clarification if needed
-- Keep under 100 words
-- Match the sender's context
-- Reply only
+- Keep the reply around {word_limit}
 
 Email:
 {email.strip()}

@@ -1,7 +1,7 @@
 import os
 import json
 import time
-
+import logging
 from dotenv import load_dotenv
 from tqdm import tqdm
 import google.generativeai as genai
@@ -10,15 +10,17 @@ import google.generativeai as genai
 # Configuration
 # -----------------------------
 
+CURRENT_API_KEY = None
+MODEL = None
+
 load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("gemini-2.5-flash")
 
 REQUESTS_PER_MINUTE = 8
 SECONDS_PER_REQUEST = 60 / REQUESTS_PER_MINUTE + 0.5
-MAX_RETRIES = 5
+MAX_RETRIES = 3
 
 # Use a relative path instead of an absolute Windows path
 DATASET_PATH = os.path.join("dataset", "emails.json")
@@ -29,71 +31,86 @@ OUTPUT_PATH = os.path.join("Reply_generator", "generated", "generated_replies.js
 # Reusable Function
 # ==========================================================
 
-import google.generativeai as genai
+
 
 def generate_reply(
     email,
     tone,
-    category="",
-    urgency="",
-    intent="",
-    subject="",
     additional_instruction="",
     api_key=None
 ):
 
     # Configure Gemini
-    if api_key and api_key.strip():
-        genai.configure(api_key=api_key.strip())
-    else:
-        default_key = os.getenv("GEMINI_API_KEY1_reply")
+    global CURRENT_API_KEY, MODEL
 
-        if not default_key:
-            return {
-                "success": False,
-                "error": "No Gemini API key provided."
-            }
+    key = api_key.strip() if api_key else os.getenv("GEMINI_API_KEY1_reply")
 
-        genai.configure(api_key=default_key)
+    if not key:
+        return {
+        "success": False,
+        "error": "No Gemini API key provided."
+         }
 
-    model = genai.GenerativeModel("gemini-2.5-flash")
-
+    if key != CURRENT_API_KEY:
+        genai.configure(api_key=key)
+        MODEL = genai.GenerativeModel("gemini-2.5-flash")
+        CURRENT_API_KEY = key
+    
+    email = email.strip()
+    additional_instruction = additional_instruction.strip()
+    
     prompt = f"""
 
-Reply to this email.
+Reply to the email below.
 
 Tone: {tone}
-Extra: {additional_instruction or "None"}
+Extra instructions: {additional_instruction or "None"}
 
 Requirements:
-- Professional
-- Concise
-- Answer everything
-- Don't invent information
-- Ask if information is missing
+- Professional and natural
+- Answer every question
+- Don't invent facts
+- Ask for clarification if needed
+- Keep under 100 words
+- Match the sender's context
 - Reply only
 
 Email:
-{email}
+{email.strip()}
 
 """
 
     for attempt in range(MAX_RETRIES):
 
         try:
-
-            response = model.generate_content(prompt)
-
+                
+            response = MODEL.generate_content(
+                prompt,
+                generation_config=genai.GenerationConfig(
+                temperature=0.3,
+                top_p=0.9,
+                top_k=40,
+                max_output_tokens=140
+                                    )
+                )
+            # Check if Gemini returned an empty response
+            if not response.text or not response.text.strip():
+                return {
+                        "success": False,
+                        "error": "Gemini returned an empty response."
+                    }
+            
             return {
                 "success": True,
-                "reply": response.text.strip()
+                "reply": response.text.strip(),
+                "model": "gemini-2.5-flash"
             }
 
         except Exception as e:
 
             error = str(e).lower()
 
-            print(error)
+            logging.error(error)
 
             # Invalid API key
             if (
@@ -125,7 +142,7 @@ Email:
                 or "503" in error
                 or "internal" in error
             ):
-                wait = (attempt + 1) * 5
+                wait = 2 ** attempt
                 print(f"Retrying in {wait}s...")
                 time.sleep(wait)
                 continue
@@ -182,10 +199,7 @@ if __name__ == "__main__":
         
             email=item["incoming_email"],
             tone=item["tone"],
-            category=item["category"],
-            urgency=item["urgency"],
-            intent=item["intent"],
-            subject=item["subject"]
+            additional_instruction=item.get("additional_instruction", "")
     
         )
     

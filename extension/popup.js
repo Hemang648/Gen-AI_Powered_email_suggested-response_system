@@ -164,23 +164,19 @@ generateBtn.addEventListener("click", async () => {
 
         });
 
-        if (!response.ok) {
-
-            throw new Error(`HTTP ${response.status}`);
-
-        }
-
         const data = await response.json();
 
-        if (data.success && data.reply) {
+if (!response.ok || !data.success) {
 
-            replyBox.value = data.reply;
+    replyBox.value = "❌ " + (data.error || "Unknown error");
 
-        } else {
+    showToast(data.error || "Request failed", "error");
 
-            replyBox.value = data.error;
+    return;
 
-        }
+}
+
+replyBox.value = data.reply;
 
     }
 
